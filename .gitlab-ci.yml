@@ -1,0 +1,26 @@
+image: python:3.6-stretch
+before_script:
+    - mkdir -p /var/log/authentication
+    - chmod -R 755 /var/log/authentication
+    - pip install -r requirements.txt
+
+stages:
+    - test
+    - deploy
+
+test:
+    script:
+        - python API/src/test_api.py
+
+deploy:
+    stage: deploy
+    before_script: 
+        - mkdir -p ~/.ssh
+        - echo -e "$PRIVATE_KEY" > ~/.ssh/id_rsa
+        - chmod 600 ~/.ssh/id_rsa 
+        - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    script:
+        - bash .gitlab-deploy.sh
+    only:
+        - master
+

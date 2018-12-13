@@ -1,0 +1,11 @@
+flask
+flask_restful
+redis
+psycopg2-binary
+pika
+requests
+pytest-flask
+Flask-Testing
+flask_sqlalchemy
+flask_script
+
